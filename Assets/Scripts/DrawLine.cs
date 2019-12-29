@@ -22,12 +22,22 @@ public class DrawLine : MonoBehaviour
  
     void Start()
     {
-        if (!lineRenderer)
+        if (lineRenderer==null)
         {
             lineRenderer = GetComponent<LineRenderer>();
         }
         lineRenderer.sortingLayerID = layerOrder;
-       
+       LineInvisible();
+    }
+
+    public void LineInvisible(){
+        if(lineRenderer!=null){
+            lineRenderer.enabled=false;
+        }
+    }
+
+    public void reStart(){
+        Start();
     }
  
     void Update()
