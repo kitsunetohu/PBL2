@@ -16,7 +16,7 @@ public class manager : MonoBehaviour
     void Update()
     {
          if(Input.GetKey(KeyCode.Space)){
-            drawLine.UpdateLine(endPoint.position);
+            drawLine.UpdateLine(endPoint.position,true);
         }else{
             drawLine.EndDraw();
         }

@@ -35,7 +35,7 @@ public class DrawLine : MonoBehaviour
 
     }
  
-    public void UpdateLine(Vector3 finishPoint){
+    public void UpdateLine(Vector3 finishPoint,bool isCurve){
         if(lineRenderer.enabled==false){
            lineRenderer.enabled=true;
         }
@@ -43,9 +43,15 @@ public class DrawLine : MonoBehaviour
         float length=(finishPoint-controlPoints[0].position).magnitude;
         controlPoints[1].position=controlPoints[0].position+transform.forward*length/3;
         controlPoints[2].position=finishPoint;
-        Debug.Log(length);
         
-        DrawCurve();
+        if(isCurve){
+            DrawCurve();
+        }
+        else{
+            DrawStreat(finishPoint);
+            Debug.Log(finishPoint);
+        }
+        
 
     }
 
@@ -53,6 +59,14 @@ public class DrawLine : MonoBehaviour
          lineRenderer.enabled=false;
     }
     
+    void DrawStreat(Vector3 finishPoint){
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0,transform.position);
+        lineRenderer.SetPosition(1,finishPoint);
+
+    }
+
+
     void DrawCurve()
     {
             for (int i = 1; i <= _segmentNum; i++)
