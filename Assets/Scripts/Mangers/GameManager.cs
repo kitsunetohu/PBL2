@@ -42,7 +42,7 @@ public class GameManager : Manager<GameManager>
         targetPoint = targetPoints[0].position;
         guide.SetActive(false);
         LineInvisible();
-        
+
     }
 
     // Update is called once per frame
@@ -56,7 +56,7 @@ public class GameManager : Manager<GameManager>
             guideLine.UpdateLine(guideHitPoint.transform.position, false);
             passengerHitPoint.transform.position = guideHitPoint.transform.position + playerOffest;
             playerLine.UpdateLine(passengerHitPoint.transform.position, true);
-            
+
         }
     }
 
@@ -79,22 +79,29 @@ public class GameManager : Manager<GameManager>
         guideHitPoint.SetActive(true);
         passengerHitPoint.SetActive(true);
         a = Random.Range(0, 5);
-        Vector3 tmpTarget = targetPoints[a].position-playerOffest;
+        Vector3 tmpTarget = targetPoints[a].position - playerOffest;
         guide.transform.LookAt(tmpTarget);
         tmpTarget.y = 0;
         guideHitPoint.GetComponent<MeshRenderer>().enabled = true;
         guideHitPoint.transform.position = tmpFrom;
-        guideHitPoint.transform.DOMove(tmpTarget, 4).OnComplete(() =>
+        guideHitPoint.transform.DOMove(tmpTarget, 2).OnComplete(() =>
         {
-           passenger.transform.position=targetPoints[a].position;
-           isShowing=false;
-           LineInvisible();
-           
+            StartCoroutine("OnTarget",a);
+
         });
         isShowing = true;
     }
 
-    void LineInvisible(){
+    IEnumerator OnTarget(int a)
+    {
+        yield return new WaitForSeconds(1);
+        passenger.transform.position = targetPoints[a].position;
+        isShowing = false;
+        LineInvisible();
+    }
+
+    void LineInvisible()
+    {
         guideHitPoint.SetActive(false);
         passengerHitPoint.SetActive(false);
         playerLine.LineInvisible();
