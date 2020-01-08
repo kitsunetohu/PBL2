@@ -17,8 +17,9 @@ public class pillar : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-         if (other.tag=="player")
+         if (other.tag=="Player")
         {
+            Debug.Log("chu peng");
            GameManager.Instance.TouchedPillar();
         }
     }

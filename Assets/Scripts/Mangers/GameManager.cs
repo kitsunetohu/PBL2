@@ -20,6 +20,7 @@ public class GameManager : Manager<GameManager>
 
     public Vector3 targetPoint;
     bool isShowing = false;
+    bool timeing = false;
 
     public GameObject guideHitPoint;
     public GameObject passengerHitPoint;
@@ -34,6 +35,8 @@ public class GameManager : Manager<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        timeing = false;
+        usedTime = 0;
         vrText.text = " ";
         isShowing = false;
         showLine.onClick.AddListener(ShowLine);
@@ -51,12 +54,16 @@ public class GameManager : Manager<GameManager>
         playerOffest = passenger.transform.position - guide.transform.position;
         if (isShowing)
         {
-            usedTime += Time.deltaTime;
+
             passengerHitPoint.GetComponent<MeshRenderer>().enabled = true;
             guideLine.UpdateLine(guideHitPoint.transform.position, false);
             passengerHitPoint.transform.position = guideHitPoint.transform.position + playerOffest;
             playerLine.UpdateLine(passengerHitPoint.transform.position, true);
 
+        }
+        if (timeing)
+        {
+            usedTime += Time.deltaTime;
         }
     }
 
@@ -86,7 +93,7 @@ public class GameManager : Manager<GameManager>
         guideHitPoint.transform.position = tmpFrom;
         guideHitPoint.transform.DOMove(tmpTarget, 2).OnComplete(() =>
         {
-            StartCoroutine("OnTarget",a);
+            StartCoroutine("OnTarget", a);
 
         });
         isShowing = true;
@@ -96,6 +103,7 @@ public class GameManager : Manager<GameManager>
     {
         yield return new WaitForSeconds(1);
         passenger.transform.position = targetPoints[a].position;
+        timeing = true;
         isShowing = false;
         LineInvisible();
     }
