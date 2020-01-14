@@ -21,6 +21,7 @@ public class GuidePlayer : MonoBehaviour
     public GameObject passengerHitPoint;
     bool guiding = false;
     Vector3 offset;
+    float usedTime=0;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class GuidePlayer : MonoBehaviour
 
         ChoseTarget();
         SetPassengerPos();
+        usedTime=0;
     }
 
     // Update is called once per frame
@@ -74,6 +76,8 @@ public class GuidePlayer : MonoBehaviour
             haptic.Execute(0, 0.005f, 0.005f, 1, SteamVR_Input_Sources.LeftHand);
             Tereport();
         }
+
+        usedTime+=Time.deltaTime;
     }
 
     void Tereport()
@@ -82,7 +86,7 @@ public class GuidePlayer : MonoBehaviour
         var tmp2 = targets[targetNum].transform.position;
         tmp1.y = 0;
         tmp2.y = 0;
-        Debug.Log("distance：" + Vector3.Distance(tmp1, tmp2));
+        Debug.Log("distance：" + Vector3.Distance(tmp1, tmp2)+";"+" Time:"+usedTime);
         Passenger.transform.position = new Vector3(tmp1.x, Passenger.transform.position.y, tmp1.z);
 
     }
