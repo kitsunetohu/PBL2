@@ -13,6 +13,7 @@ using System.Collections.Generic;
 public class DrawLine : MonoBehaviour
 {
 
+    public bool showing = true;
     public Transform[] controlPoints = new Transform[3];
     public LineRenderer lineRenderer;
 
@@ -50,23 +51,31 @@ public class DrawLine : MonoBehaviour
 
     public void UpdateLine(Vector3 finishPoint, bool isCurve)
     {
-        if (lineRenderer.enabled == false)
+        if (showing)
         {
-            lineRenderer.enabled = true;
-        }
-        controlPoints[0].position = transform.position;
-        float length = (finishPoint - controlPoints[0].position).magnitude;
-        controlPoints[1].position = controlPoints[0].position + transform.forward * length / 3;
-        controlPoints[2].position = finishPoint;
+            if (lineRenderer.enabled == false)
+            {
+                lineRenderer.enabled = true;
+            }
+            controlPoints[0].position = transform.position;
+            float length = (finishPoint - controlPoints[0].position).magnitude;
+            controlPoints[1].position = controlPoints[0].position + transform.forward * length / 3;
+            controlPoints[2].position = finishPoint;
 
-        if (isCurve)
-        {
-            DrawCurve();
+            if (isCurve)
+            {
+                DrawCurve();
+            }
+            else
+            {
+                DrawStreat(finishPoint);
+            }
         }
         else
         {
-            DrawStreat(finishPoint);
+            lineRenderer.enabled = false;
         }
+
 
 
     }

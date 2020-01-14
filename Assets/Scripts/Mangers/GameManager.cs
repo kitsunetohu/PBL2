@@ -15,6 +15,8 @@ public class GameManager : Manager<GameManager>
     public Transform[] guidePoints;
     public Collider pillar;
 
+    public bool touched=false;
+
     public GameObject guide;
     public GameObject passenger;
 
@@ -35,6 +37,7 @@ public class GameManager : Manager<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        touched=false;
         timeing = false;
         usedTime = 0;
         vrText.text = " ";
@@ -125,6 +128,10 @@ public class GameManager : Manager<GameManager>
 
     public void TouchedPillar()
     {
-        vrText.text = "clear,used " + usedTime + "s";
+        if(touched==false){
+            vrText.text = "clear,used " + usedTime + "s";
+            touched=true;
+        }
+        
     }
 }
