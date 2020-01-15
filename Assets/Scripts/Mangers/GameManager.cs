@@ -15,7 +15,7 @@ public class GameManager : Manager<GameManager>
     public Transform[] guidePoints;
     public Collider pillar;
 
-    public bool touched=false;
+    public bool touched = false;
 
     public GameObject guide;
     public GameObject passenger;
@@ -32,12 +32,12 @@ public class GameManager : Manager<GameManager>
     //VR的UI
     public Text vrText;
 
-
+    public bool showPassengerHitPoint = false;
     float usedTime = 0;
     // Start is called before the first frame update
     void Start()
     {
-        touched=false;
+        touched = false;
         timeing = false;
         usedTime = 0;
         vrText.text = " ";
@@ -87,7 +87,11 @@ public class GameManager : Manager<GameManager>
 
         isShowing = true;
         guideHitPoint.SetActive(true);
-        passengerHitPoint.SetActive(true);
+        if (showPassengerHitPoint)
+        {
+            passengerHitPoint.SetActive(true);
+        }
+
         a = Random.Range(0, 5);
         Vector3 tmpTarget = targetPoints[a].position - playerOffest;
         guide.transform.LookAt(tmpTarget);
@@ -128,10 +132,12 @@ public class GameManager : Manager<GameManager>
 
     public void TouchedPillar()
     {
-        if(touched==false){
+        if (touched == false)
+        {
             vrText.text = "clear,used " + usedTime + "s";
-            touched=true;
+            Debug.Log("clear,used " + usedTime + "s");
+            touched = true;
         }
-        
+
     }
 }
